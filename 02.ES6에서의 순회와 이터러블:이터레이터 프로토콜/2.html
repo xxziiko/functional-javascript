@@ -1,0 +1,51 @@
+### Array를 통해 반복문 알아보기
+<script>
+  const arr = [1,2,3];
+  for(const a of arr) log(a);
+
+  // key로 접근해서 검색 가능
+  arr[0] //1
+  
+</script>
+
+
+### Set 객체를 통해 반복문 알아보기
+<script>
+  const set = new Set([1,2,3]);
+  for(const a of set) log(a);
+
+  // key로 접근해서 검색 불가
+  set[0] // undefined
+</script>
+
+### Map 객체를 통해 반복문 알아보기
+<script>
+  const map = new Map([['a',1],['b',2],['c',3]]);
+  for(const a of map) log(a);
+
+  // key로 접근해서 검색 불가
+  map[0] // undefined
+</script>
+
+-> 알 수 있는 사실
+- 숫자 key(인덱스)와 해당하는 값을 순회하면서 동작하던 기존의 for 문과 달리 for ... of 문은 다른 방식으로 동작한다.
+- 다른방식?
+   Symbol -> 어떤 객체의 키로 사용될 수 있음.
+- array, Set, Map 은 자바스크립트 내장객체로써 이터러블/이터레이터 프로토콜을 따르고 있음
+
+## 이터러블/이터레이터 프로토콜
+- 이터러블: 이터레이터를 리턴하는 [Symbol.iterator]()를 가진 값.
+- 이터레이터: { value, done } 객체를 리턴하는 next()를 가진 값
+  e.g. 
+  const iterator = [Symbol.iterator]();
+  iterator.next() // {value: undefined, done: true}
+- 이터러블/이터레이터 프로토콜: 이터러블을 for ... of, 전개 연산자 등과 함께 동작하도록 한 규약
+
+
+-> array는 이터러블이고, symbol.iterator를 리턴하기 때문에 for ... of 에 잘 동작하는 이터러블 객체이다.
+또한, for...of 문에 잘 동작하기 때문에 이터러블/이터레이터 프로토콜을 따른다고 할 수 있다.
+
+
+### for ... of 문의 동작 원리
+- Symbol.iterator를 실행한 이터레이터를 순회하면서 value를 출력, value가 undefined일 때(done 이 true 일 때), 반복문을 빠져나간다. 
+  
