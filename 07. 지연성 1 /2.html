@@ -1,0 +1,43 @@
+# 이터러블 중심 프로그래밍에서의 지연 평가 (Lazy Evaluation)
+- 제 때 계산법
+- 느긋한 계산법
+- 제너레이터/이터레이터 프로토콜을 기반으로 구현
+
+### L.map
+<script>
+
+  // L.map = function *(iter) {
+  //   for (const a of iter) yield f(a);
+  // }
+
+  // let it = L.map([1,2,3]) 
+
+  // 어떤 함수를 적용한 값을 다시 만들어본다면 -> 맵핑할 함수를 만든다면?
+  
+  L.map = function *(f, iter) {
+    for (const a of iter) yield f(a);
+  };
+
+  let it = L.map(a => a + 10, [1,2,3])
+    // next를 통해서 평가할 값만 얻어올 수 있다. (지연성)
+    it.next() // // {value: 11, done: false}
+
+    이터레이터에 스프레드 연산자를 이용해 평가를 한다면 이런 값을 만들 수 있다.
+    [...it] // [11,12,13]
+</script>
+
+- L.map 자체에서는 새로운 array를 만들지 않고 그냥 값 하나하나 순회하면서 yield를 통해 함수가 적용된 값을 이터레이터의 next를 실행할 때마다 전달하게 되고
+  준비가 되어있는 이터레이터 객체를 내가 원하는 방법으로 평가하면서 구현할 수 있다. 
+
+
+  ### L.filter
+  <script>
+      L.map = function *(f, iter) {
+    for (const a of iter)   if(f(a)) return yield a;
+  };
+
+    L.filter(a => a % 2, [1,2,3,4])
+    it.next() // {value: 1, done: false}
+    it.next() // {value: 3, done: false}
+    ...
+  </script>
