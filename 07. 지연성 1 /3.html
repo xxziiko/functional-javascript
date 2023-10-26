@@ -1,0 +1,21 @@
+## L.range, L.map, L.filter, take 의 평가순서
+
+
+<script>
+  go(
+    range(10),
+    map(n => n + 10),
+    filter(n => n % 2),
+    take(2)
+  )
+  
+  go(
+    L.range(10),
+    L.map(n => n + 10),
+    L.filter(n => n % 2),
+    take(2)
+  )
+</script>
+
+- 앞선 go 함수(일반적인 함수)는 위에서부터 즉시 평가되어 순서대로 함수가 실행된다.
+- 그러나 지연성을 가진 함수는 위 아래로 실행되면서 동작함. (병렬진행?) -> 무한 수열 파라미터로 가능, 성능적으로 조금 더 우수
